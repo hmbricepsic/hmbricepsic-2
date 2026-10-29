@@ -1,0 +1,636 @@
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario - Fundamentos de la Asistencia Infantil</title>
+  <style>
+    /* CSS */
+    /* Reset básico y tipografía */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #f4f6f9;
+      color: #1f2937;
+      line-height: 1.5;
+      padding: 1rem;
+    }
+    header, main, footer { max-width: 960px; margin: 0 auto; }
+    header {
+      background: #1e3a8a;
+      color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.4rem; }
+    header p { font-size: 0.9rem; opacity: 0.9; margin-top: 0.4rem; }
+
+    /* Estilos generales de fieldset */
+    fieldset {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #fff;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    legend {
+      font-weight: 700;
+      color: #1e3a8a;
+      padding: 0 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    /* Datos personales */
+    .datos-personales .campo {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.8rem;
+    }
+    .datos-personales label { font-weight: 600; margin-bottom: 0.3rem; }
+    .datos-personales input {
+      padding: 0.5rem;
+      border: 1px solid #94a3b8;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    /* Ítems */
+    .item { margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px dashed #e2e8f0; }
+    .item:last-child { border-bottom: none; }
+    .item p.enunciado { font-weight: 600; margin-bottom: 0.5rem; }
+    .opciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.4rem; }
+    .opciones label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+    .vf { display: flex; gap: 1.5rem; margin-top: 0.4rem; }
+    .vf label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+
+    /* Relación de columnas */
+    .relacion .fila {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .relacion select {
+      padding: 0.4rem;
+      border: 1px solid #94a3b8;
+      border-radius: 6px;
+      background: #fff;
+    }
+    .relacion .col-b {
+      background: #f1f5f9;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .relacion .col-b li { margin-bottom: 0.3rem; list-style: none; }
+
+    /* Botones */
+    .acciones {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      padding: 0.7rem 1.4rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .btn-primario { background: #1e3a8a; color: #fff; }
+    .btn-primario:hover { background: #1e40af; }
+    .btn-secundario { background: #e2e8f0; color: #1f2937; }
+    .btn-secundario:hover { background: #cbd5e1; }
+
+    /* Resultados */
+    #resultados {
+      background: #fff;
+      border: 2px solid #1e3a8a;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      display: none;
+    }
+    #resultados h2 { color: #1e3a8a; margin-bottom: 0.8rem; }
+    #resultados table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+    #resultados th, #resultados td {
+      border: 1px solid #cbd5e1;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    #resultados th { background: #1e3a8a; color: #fff; }
+    #resultados tr:nth-child(even) { background: #f8fafc; }
+    .nota-final { font-size: 1.2rem; font-weight: 700; color: #15803d; margin-top: 0.8rem; }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.1rem; }
+      .relacion .fila { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cuestionario: Fundamentos de la Asistencia Infantil y Desarrollo en la Primera Infancia</h1>
+    <p>Materia: Asistencia Infantil I — Cuarto de Bachillerato</p>
+  </header>
+
+  <main>
+    <form id="cuestionario" novalidate>
+
+      <!-- ================= DATOS PERSONALES ================= -->
+      <fieldset class="datos-personales">
+        <legend>Datos personales</legend>
+        <div class="campo">
+          <label for="nombre">Nombre completo:</label>
+          <input type="text" id="nombre" name="nombre" required />
+        </div>
+        <div class="campo">
+          <label for="grado">Grado:</label>
+          <input type="text" id="grado" name="grado" required />
+        </div>
+        <div class="campo">
+          <label for="grupo">Grupo:</label>
+          <input type="text" id="grupo" name="grupo" required />
+        </div>
+      </fieldset>
+
+      <!-- ================= SECCIÓN I: OPCIÓN MÚLTIPLE ================= -->
+      <fieldset>
+        <legend>Sección I. Opción múltiple (10 ítems · 5 pts c/u)</legend>
+
+        <!-- Ítem 1 -->
+        <div class="item">
+          <p class="enunciado">1. ¿Qué es la asistencia infantil según el módulo?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om1" value="A" /> A) Solo cuidado físico del niño</label>
+            <label><input type="radio" name="om1" value="B" /> B) Disciplina y práctica profesional orientada al cuidado, protección y estimulación integral del niño</label>
+            <label><input type="radio" name="om1" value="C" /> C) Una rama de la pediatría</label>
+            <label><input type="radio" name="om1" value="D" /> D) Actividad recreativa sin fundamento científico</label>
+            <label><input type="radio" name="om1" value="E" /> E) Educación preescolar formal</label>
+            <label><input type="radio" name="om1" value="F" /> F) Trabajo exclusivo en hospitales</label>
+          </div>
+        </div>
+
+        <!-- Ítem 2 -->
+        <div class="item">
+          <p class="enunciado">2. ¿En qué lugar ocurre la fecundación?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om2" value="A" /> A) En el útero</label>
+            <label><input type="radio" name="om2" value="B" /> B) En la vagina</label>
+            <label><input type="radio" name="om2" value="C" /> C) En la ampolla de la trompa de Falopio</label>
+            <label><input type="radio" name="om2" value="D" /> D) En el ovario</label>
+            <label><input type="radio" name="om2" value="E" /> E) En el cuello uterino</label>
+            <label><input type="radio" name="om2" value="F" /> F) En la placenta</label>
+          </div>
+        </div>
+
+        <!-- Ítem 3 -->
+        <div class="item">
+          <p class="enunciado">3. ¿Cuál es el período de mayor vulnerabilidad del desarrollo prenatal?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om3" value="A" /> A) Período germinal</label>
+            <label><input type="radio" name="om3" value="B" /> B) Período embrionario (semanas 3 a 8)</label>
+            <label><input type="radio" name="om3" value="C" /> C) Período fetal</label>
+            <label><input type="radio" name="om3" value="D" /> D) Puerperio</label>
+            <label><input type="radio" name="om3" value="E" /> E) Primer trimestre completo</label>
+            <label><input type="radio" name="om3" value="F" /> F) Período postérmino</label>
+          </div>
+        </div>
+
+        <!-- Ítem 4 -->
+        <div class="item">
+          <p class="enunciado">4. ¿Qué hormona detectan las pruebas de embarazo?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om4" value="A" /> A) Oxitocina</label>
+            <label><input type="radio" name="om4" value="B" /> B) Progesterona</label>
+            <label><input type="radio" name="om4" value="C" /> C) Gonadotropina coriónica humana (hCG)</label>
+            <label><input type="radio" name="om4" value="D" /> D) Estrógeno</label>
+            <label><input type="radio" name="om4" value="E" /> E) Cortisol</label>
+            <label><input type="radio" name="om4" value="F" /> F) Lactógeno placentario</label>
+          </div>
+        </div>
+
+        <!-- Ítem 5 -->
+        <div class="item">
+          <p class="enunciado">5. ¿Qué puntuación en la escala de Apgar indica que el bebé está en buen estado?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om5" value="A" /> A) 3 o más</label>
+            <label><input type="radio" name="om5" value="B" /> B) 5 o más</label>
+            <label><input type="radio" name="om5" value="C" /> C) 7 o más</label>
+            <label><input type="radio" name="om5" value="D" /> D) 10 únicamente</label>
+            <label><input type="radio" name="om5" value="E" /> E) 4 o más</label>
+            <label><input type="radio" name="om5" value="F" /> F) 6 o más</label>
+          </div>
+        </div>
+
+        <!-- Ítem 6 -->
+        <div class="item">
+          <p class="enunciado">6. ¿Cuándo se considera un parto a término?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om6" value="A" /> A) Antes de la semana 37</label>
+            <label><input type="radio" name="om6" value="B" /> B) Entre las semanas 37 y 42</label>
+            <label><input type="radio" name="om6" value="C" /> C) Después de la semana 42</label>
+            <label><input type="radio" name="om6" value="D" /> D) Entre las semanas 28 y 32</label>
+            <label><input type="radio" name="om6" value="E" /> E) Exactamente en la semana 40</label>
+            <label><input type="radio" name="om6" value="F" /> F) Entre las semanas 20 y 30</label>
+          </div>
+        </div>
+
+        <!-- Ítem 7 -->
+        <div class="item">
+          <p class="enunciado">7. ¿Cuánto dura aproximadamente el puerperio?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om7" value="A" /> A) 2 días</label>
+            <label><input type="radio" name="om7" value="B" /> B) 1 semana</label>
+            <label><input type="radio" name="om7" value="C" /> C) 6 semanas</label>
+            <label><input type="radio" name="om7" value="D" /> D) 3 meses</label>
+            <label><input type="radio" name="om7" value="E" /> E) 1 año</label>
+            <label><input type="radio" name="om7" value="F" /> F) 10 días</label>
+          </div>
+        </div>
+
+        <!-- Ítem 8 -->
+        <div class="item">
+          <p class="enunciado">8. ¿Cuál es la diferencia principal entre crecimiento y desarrollo?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om8" value="A" /> A) Son sinónimos</label>
+            <label><input type="radio" name="om8" value="B" /> B) El crecimiento es cuantitativo; el desarrollo es cualitativo</label>
+            <label><input type="radio" name="om8" value="C" /> C) El desarrollo es solo físico</label>
+            <label><input type="radio" name="om8" value="D" /> D) El crecimiento es psicológico</label>
+            <label><input type="radio" name="om8" value="E" /> E) El desarrollo se mide en centímetros</label>
+            <label><input type="radio" name="om8" value="F" /> F) No hay diferencia</label>
+          </div>
+        </div>
+
+        <!-- Ítem 9 -->
+        <div class="item">
+          <p class="enunciado">9. Según Piaget, ¿en qué etapa se desarrolla la permanencia del objeto?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om9" value="A" /> A) Preoperacional</label>
+            <label><input type="radio" name="om9" value="B" /> B) Operaciones concretas</label>
+            <label><input type="radio" name="om9" value="C" /> C) Sensoriomotora (0-2 años)</label>
+            <label><input type="radio" name="om9" value="D" /> D) Operaciones formales</label>
+            <label><input type="radio" name="om9" value="E" /> E) Etapa del juego simbólico</label>
+            <label><input type="radio" name="om9" value="F" /> F) Ninguna</label>
+          </div>
+        </div>
+
+        <!-- Ítem 10 -->
+        <div class="item">
+          <p class="enunciado">10. ¿Cuál es la necesidad más elevada en la pirámide de Maslow?</p>
+          <div class="opciones">
+            <label><input type="radio" name="om10" value="A" /> A) Fisiológicas</label>
+            <label><input type="radio" name="om10" value="B" /> B) Seguridad</label>
+            <label><input type="radio" name="om10" value="C" /> C) Amor y pertenencia</label>
+            <label><input type="radio" name="om10" value="D" /> D) Estima</label>
+            <label><input type="radio" name="om10" value="E" /> E) Autorrealización</label>
+            <label><input type="radio" name="om10" value="F" /> F) Trascendencia</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- ================= SECCIÓN II: VERDADERO/FALSO ================= -->
+      <fieldset>
+        <legend>Sección II. Verdadero o Falso (10 ítems · 3 pts c/u)</legend>
+
+        <div class="item">
+          <p class="enunciado">1. La asistencia infantil abarca desde la gestación hasta aproximadamente los 6 o 7 años.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf1" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf1" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">2. El cigoto contiene 46 cromosomas: 23 del padre y 23 de la madre.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf2" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf2" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">3. El período germinal abarca desde la fecundación hasta las dos primeras semanas.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf3" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf3" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">4. El alcohol durante el embarazo no afecta al feto.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf4" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf4" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">5. La primera etapa del parto es la expulsión del bebé.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf5" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf5" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">6. Un bebé prematuro nace antes de la semana 37 de gestación.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf6" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf6" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">7. El calostro es la primera leche materna y es rico en nutrientes y anticuerpos.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf7" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf7" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">8. El perímetro cefálico refleja el crecimiento del cerebro.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf8" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf8" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">9. Según Piaget, el egocentrismo es característico de la etapa de operaciones concretas.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf9" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf9" value="F" /> Falso</label>
+          </div>
+        </div>
+
+        <div class="item">
+          <p class="enunciado">10. En la pirámide de Maslow, las necesidades fisiológicas son la base.</p>
+          <div class="vf">
+            <label><input type="radio" name="vf10" value="V" /> Verdadero</label>
+            <label><input type="radio" name="vf10" value="F" /> Falso</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- ================= SECCIÓN III: RELACIÓN DE COLUMNAS ================= -->
+      <fieldset class="relacion">
+        <legend>Sección III. Relación de columnas (5 ítems · 4 pts c/u)</legend>
+        <p style="margin-bottom:0.8rem; font-size:0.9rem;">
+          Relaciona cada concepto de la columna A con su descripción de la columna B.
+        </p>
+
+        <div class="fila">
+          <label for="rel1">1. Fecundación</label>
+          <select id="rel1" name="rel1">
+            <option value="">-- Selecciona --</option>
+            <option value="a">a) Período de mayor vulnerabilidad prenatal</option>
+            <option value="b">b) Unión de espermatozoide y óvulo</option>
+            <option value="c">c) Etapa de la permanencia del objeto</option>
+            <option value="d">d) Necesidad más elevada según Maslow</option>
+            <option value="e">e) Etapa de dilatación, expulsión y alumbramiento</option>
+          </select>
+        </div>
+
+        <div class="fila">
+          <label for="rel2">2. Período embrionario</label>
+          <select id="rel2" name="rel2">
+            <option value="">-- Selecciona --</option>
+            <option value="a">a) Período de mayor vulnerabilidad prenatal</option>
+            <option value="b">b) Unión de espermatozoide y óvulo</option>
+            <option value="c">c) Etapa de la permanencia del objeto</option>
+            <option value="d">d) Necesidad más elevada según Maslow</option>
+            <option value="e">e) Etapa de dilatación, expulsión y alumbramiento</option>
+          </select>
+        </div>
+
+        <div class="fila">
+          <label for="rel3">3. Parto</label>
+          <select id="rel3" name="rel3">
+            <option value="">-- Selecciona --</option>
+            <option value="a">a) Período de mayor vulnerabilidad prenatal</option>
+            <option value="b">b) Unión de espermatozoide y óvulo</option>
+            <option value="c">c) Etapa de la permanencia del objeto</option>
+            <option value="d">d) Necesidad más elevada según Maslow</option>
+            <option value="e">e) Etapa de dilatación, expulsión y alumbramiento</option>
+          </select>
+        </div>
+
+        <div class="fila">
+          <label for="rel4">4. Etapa sensoriomotora</label>
+          <select id="rel4" name="rel4">
+            <option value="">-- Selecciona --</option>
+            <option value="a">a) Período de mayor vulnerabilidad prenatal</option>
+            <option value="b">b) Unión de espermatozoide y óvulo</option>
+            <option value="c">c) Etapa de la permanencia del objeto</option>
+            <option value="d">d) Necesidad más elevada según Maslow</option>
+            <option value="e">e) Etapa de dilatación, expulsión y alumbramiento</option>
+          </select>
+        </div>
+
+        <div class="fila">
+          <label for="rel5">5. Autorrealización</label>
+          <select id="rel5" name="rel5">
+            <option value="">-- Selecciona --</option>
+            <option value="a">a) Período de mayor vulnerabilidad prenatal</option>
+            <option value="b">b) Unión de espermatozoide y óvulo</option>
+            <option value="c">c) Etapa de la permanencia del objeto</option>
+            <option value="d">d) Necesidad más elevada según Maslow</option>
+            <option value="e">e) Etapa de dilatación, expulsión y alumbramiento</option>
+          </select>
+        </div>
+
+        <!-- Columna B de referencia visual -->
+        <div class="col-b" style="margin-top:1rem;">
+          <strong>Columna B:</strong>
+          <ul>
+            <li>a) Período de mayor vulnerabilidad prenatal</li>
+            <li>b) Unión de espermatozoide y óvulo</li>
+            <li>c) Etapa de la permanencia del objeto</li>
+            <li>d) Necesidad más elevada según Maslow</li>
+            <li>e) Etapa de dilatación, expulsión y alumbramiento</li>
+          </ul>
+        </div>
+      </fieldset>
+
+      <!-- ================= BOTONES ================= -->
+      <div class="acciones">
+        <button type="button" class="btn-primario" id="btnCalificar">Calificar cuestionario</button>
+        <button type="reset" class="btn-secundario">Limpiar respuestas</button>
+      </div>
+    </form>
+
+    <!-- ================= RESULTADOS ================= -->
+    <section id="resultados" aria-live="polite">
+      <h2>Resultados del cuestionario</h2>
+      <div id="tablaResultados"></div>
+      <p class="nota-final" id="notaFinal"></p>
+    </section>
+  </main>
+
+  <footer style="text-align:center; font-size:0.85rem; color:#64748b; margin-top:2rem;">
+    Cuestionario generado a partir del Módulo 1 — Asistencia Infantil I
+  </footer>
+
+  <script>
+    // JavaScript
+    // ============================================================
+    // CLAVE DE RESPUESTAS CORRECTAS
+    // ============================================================
+    // Sección I: Opción múltiple (10 ítems)
+    const CLAVE_OM = {
+      om1: 'B',  // Definición de asistencia infantil
+      om2: 'C',  // Fecundación en la ampolla de la trompa de Falopio
+      om3: 'B',  // Período embrionario: mayor vulnerabilidad
+      om4: 'C',  // hCG detectada en pruebas de embarazo
+      om5: 'C',  // Apgar 7 o más = buen estado
+      om6: 'B',  // Parto a término: 37 a 42 semanas
+      om7: 'C',  // Puerperio: ~6 semanas
+      om8: 'B',  // Crecimiento cuantitativo, desarrollo cualitativo
+      om9: 'C',  // Permanencia del objeto: sensoriomotora
+      om10: 'E'  // Autorrealización: necesidad más elevada
+    };
+
+    // Sección II: Verdadero/Falso (10 ítems)
+    const CLAVE_VF = {
+      vf1: 'V',  // Abarca gestación hasta 6-7 años
+      vf2: 'V',  // 46 cromosomas: 23 + 23
+      vf3: 'V',  // Período germinal: 2 semanas
+      vf4: 'F',  // El alcohol SÍ afecta (síndrome alcohólico fetal)
+      vf5: 'F',  // La primera etapa es dilatación, no expulsión
+      vf6: 'V',  // Prematuro: antes de semana 37
+      vf7: 'V',  // Calostro: rico en nutrientes y anticuerpos
+      vf8: 'V',  // Perímetro cefálico refleja crecimiento cerebral
+      vf9: 'F',  // Egocentrismo es de la etapa preoperacional
+      vf10: 'V'  // Fisiológicas: base de la pirámide
+    };
+
+    // Sección III: Relación de columnas (5 ítems)
+    const CLAVE_REL = {
+      rel1: 'b', // Fecundación → unión de espermatozoide y óvulo
+      rel2: 'a', // Período embrionario → mayor vulnerabilidad
+      rel3: 'e', // Parto → dilatación, expulsión y alumbramiento
+      rel4: 'c', // Sensoriomotora → permanencia del objeto
+      rel5: 'd'  // Autorrealización → necesidad más elevada
+    };
+
+    // Ponderaciones
+    const PESO_OM = 5;   // 10 ítems × 5 = 50 pts
+    const PESO_VF = 3;   // 10 ítems × 3 = 30 pts
+    const PESO_REL = 4;  // 5 ítems × 4 = 20 pts
+    const TOTAL_ITEMS = 25;
+
+    // ============================================================
+    // FUNCIÓN: Obtener valor seleccionado de un grupo de radios
+    // ============================================================
+    function obtenerSeleccion(nombre) {
+      const seleccionado = document.querySelector(`input[name="${nombre}"]:checked`);
+      return seleccionado ? seleccionado.value : null;
+    }
+
+    // ============================================================
+    // FUNCIÓN: Contar aciertos en una sección
+    // ============================================================
+    function contarAciertos(clave, tipo) {
+      let aciertos = 0;
+      let detalle = [];
+      for (const [pregunta, correcta] of Object.entries(clave)) {
+        let respuesta;
+        if (tipo === 'select') {
+          respuesta = document.getElementById(pregunta)?.value || null;
+        } else {
+          respuesta = obtenerSeleccion(pregunta);
+        }
+        const esCorrecta = respuesta === correcta;
+        if (esCorrecta) aciertos++;
+        detalle.push({ pregunta, respuesta, correcta, esCorrecta });
+      }
+      return { aciertos, detalle };
+    }
+
+    // ============================================================
+    // FUNCIÓN PRINCIPAL: Calificar el cuestionario
+    // ============================================================
+    function calificar() {
+      // 1. Validar datos personales
+      const nombre = document.getElementById('nombre').value.trim();
+      const grado = document.getElementById('grado').value.trim();
+      const grupo = document.getElementById('grupo').value.trim();
+
+      if (!nombre || !grado || !grupo) {
+        alert('Por favor, completa todos los datos personales (nombre, grado y grupo).');
+        return;
+      }
+
+      // 2. Contar aciertos por sección
+      const resultadoOM = contarAciertos(CLAVE_OM, 'radio');
+      const resultadoVF = contarAciertos(CLAVE_VF, 'radio');
+      const resultadoREL = contarAciertos(CLAVE_REL, 'select');
+
+      // 3. Calcular puntajes
+      const puntosOM = resultadoOM.aciertos * PESO_OM;
+      const puntosVF = resultadoVF.aciertos * PESO_VF;
+      const puntosREL = resultadoREL.aciertos * PESO_REL;
+      const puntosTotales = puntosOM + puntosVF + puntosREL;
+      const aciertosTotales = resultadoOM.aciertos + resultadoVF.aciertos + resultadoREL.aciertos;
+
+      // 4. Calcular porcentaje y nota 0-10
+      const porcentaje = (aciertosTotales / TOTAL_ITEMS) * 100;
+      const nota = (aciertosTotales / TOTAL_ITEMS) * 10;
+      const notaRedondeada = nota.toFixed(2);
+
+      // 5. Renderizar tabla de resultados
+      const contenedor = document.getElementById('tablaResultados');
+      contenedor.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Dato</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Nombre</strong></td><td>${nombre}</td></tr>
+            <tr><td><strong>Grado</strong></td><td>${grado}</td></tr>
+            <tr><td><strong>Grupo</strong></td><td>${grupo}</td></tr>
+            <tr><td>Aciertos Sección I (Opción múltiple)</td><td>${resultadoOM.aciertos} / 10</td></tr>
+            <tr><td>Aciertos Sección II (Verdadero/Falso)</td><td>${resultadoVF.aciertos} / 10</td></tr>
+            <tr><td>Aciertos Sección III (Relación de columnas)</td><td>${resultadoREL.aciertos} / 5</td></tr>
+            <tr><td><strong>Total de aciertos</strong></td><td><strong>${aciertosTotales} / 25</strong></td></tr>
+            <tr><td><strong>Porcentaje</strong></td><td><strong>${porcentaje.toFixed(2)}%</strong></td></tr>
+          </tbody>
+        </table>
+      `;
+
+      // 6. Mostrar nota final
+      document.getElementById('notaFinal').textContent =
+        `Calificación final: ${notaRedondeada} / 10`;
+
+      // 7. Mostrar sección de resultados
+      const seccionResultados = document.getElementById('resultados');
+      seccionResultados.style.display = 'block';
+      seccionResultados.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ============================================================
+    // ASIGNAR EVENTO AL BOTÓN DE CALIFICAR
+    // ============================================================
+    document.getElementById('btnCalificar').addEventListener('click', calificar);
+  </script>
+</body>
+</html>
