@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección Guía: Lectura y Redacción 2</title>
+    <style>
+        /* ===== ESTILOS GENERALES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background-color: #f4f7f6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== BARRA LATERAL (NAVEGACIÓN) ===== */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .sidebar ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        /* ===== CONTENIDO PRINCIPAL ===== */
+        .main-content {
+            margin-left: 280px;
+            padding: 2.5rem 3rem;
+            flex: 1;
+            max-width: calc(100% - 280px);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #2a5298;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+            border-left: 5px solid #1e3c72;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #34495e;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: #2c3e50;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* ===== SECCIONES COLAPSABLES ===== */
+        .section-collapsible {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #eaf0f6;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1e3c72;
+            transition: background 0.3s;
+        }
+
+        .section-header:hover {
+            background: #dbe4ed;
+        }
+
+        .section-header .icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .section-header.active .icon {
+            transform: rotate(180deg);
+        }
+
+        .section-body {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+
+        .section-body.open {
+            padding: 1.5rem;
+            max-height: none; /* Se ajusta con JS */
+        }
+
+        /* ===== CAJAS ESPECIALES ===== */
+        .box-reflection {
+            background: #e8f4f8;
+            border-left: 6px solid #2980b9;
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .box-reflection h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+
+        .box-activity {
+            background: #fef9e7;
+            border-left: 6px solid #f1c40f;
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .box-activity h4 {
+            color: #b7950b;
+            margin-top: 0;
+        }
+
+        .box-project {
+            background: #eafaf1;
+            border: 2px solid #27ae60;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+        }
+
+        .box-project h3 {
+            color: #1e8449;
+            margin-top: 0;
+        }
+
+        .highlight {
+            background: #f9e79f;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        /* ===== BOTÓN DE IMPRESIÓN ===== */
+        .btn-print {
+            display: inline-block;
+            background: #2a5298;
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 2rem;
+            transition: background 0.3s;
+        }
+
+        .btn-print:hover {
+            background: #1e3c72;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 1.5rem;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== ESTILO PARA IMPRESIÓN ===== */
+        @media print {
+            .sidebar, .btn-print {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 0;
+                max-width: 100%;
+            }
+            .section-body {
+                max-height: none !important;
+                padding: 1rem !important;
+            }
+            .section-header .icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BARRA LATERAL ===== -->
+    <nav class="sidebar">
+        <h2>📚 Lectura y Redacción 2</h2>
+        <ul>
+            <li><a href="#inicio" class="active">🏁 Inicio</a></li>
+            <li><a href="#tema1">📝 Tema 1: Textos Funcionales</a></li>
+            <li><a href="#tema2">🗣️ Tema 2: Textos Persuasivos</a></li>
+            <li><a href="#tema3">✍️ Tema 3: El Ensayo</a></li>
+            <li><a href="#tema4">🎭 Tema 4: Textos Recreativos</a></li>
+            <li><a href="#tema5">🔤 Tema 5: Léxico y Semántica</a></li>
+            <li><a href="#cierre">🎯 Cierre y Proyecto</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="main-content">
+
+        <!-- ===== INICIO ===== -->
+        <section id="inicio">
+            <h1>Lección Guía: Lectura y Redacción 2</h1>
+            <p><strong>Docente:</strong> Héctor Briceño C. | <strong>Nivel:</strong> Bachillerato | <strong>Materia:</strong> Lectura y Redacción 2</p>
+            <p><strong>Enfoque:</strong> Cognitivo-conductual, centrado en el estudiante, con planeación basada en la Nueva Escuela Mexicana (NEM).</p>
+
+            <div class="box-reflection">
+                <h4>🤔 Pregunta de Reflexión Inicial</h4>
+                <p>¿Alguna vez has sentido que escribes y escribes, pero nadie te entiende o, peor aún, que tu mensaje no logra el objetivo que buscabas, como conseguir un permiso, un empleo o convencer a alguien de tu punto de vista? Si la comunicación escrita es un puente entre tu mundo y el de los demás, ¿qué tan sólidos son los materiales con los que construyes ese puente?</p>
+            </div>
+
+            <h2>Introducción</h2>
+            <p>Imagina por un momento el día más común de tu vida en la escuela. Suena el timbre de entrada, un amigo te saluda con un "¿qué pasó?", otro te lanza un mensaje por el celular, un profesor te pide la tarea, y en la oficina de la dirección te piden que entregues un justificante firmado por tus padres. En tan solo dos horas, has participado en actos de comunicación que van desde el texto oral más informal hasta el texto escrito más formal. Cada uno de estos actos tiene un propósito: saludar, informar, solicitar, ordenar o persuadir.</p>
+            <p>En el vasto universo de la comunicación humana, los textos son vehículos que nos permiten transportar ideas, emociones y órdenes de un lugar a otro. Sin embargo, no todos los vehículos son iguales. No usaríamos un camión de carga para llevar a una persona a la esquina, ni una bicicleta para transportar una tonelada de material. De la misma manera, no podemos usar un poema para solicitar un empleo, ni un cuento para convencer a un jurado en un debate. La efectividad de nuestra comunicación depende, en gran medida, de nuestra capacidad para elegir el texto adecuado para cada situación.</p>
+            <p>El presente curso de Lectura y Redacción 2 te invita a convertirte en un arquitecto de la palabra. Durante este viaje, no solo aprenderás a leer y escribir, sino a comprender la estructura y las intenciones que se esconden detrás de cada tipo de texto. El objetivo fundamental es que adquieras las herramientas necesarias para expresarte de manera clara, precisa y efectiva en los diferentes ámbitos de tu vida: el escolar, el personal, el laboral y el social.</p>
+            <p>Abordaremos el estudio de los <strong>textos funcionales</strong>, esos escritos que tienen un carácter eminentemente práctico y útil. Verás que son tan cotidianos que a menudo los pasas por alto: desde el currículum vitae que te abrirá las puertas a tu primer empleo formal, hasta el memorando que organiza el trabajo en una empresa, pasando por el cuadro sinóptico que te ayuda a estudiar para un examen. El propósito de este bloque no es solo que reconozcas estos textos, sino que te apropies de sus técnicas de redacción para que puedas utilizarlos como herramientas de empoderamiento y organización.</p>
+            <p>El enfoque de esta materia es cognitivo-conductual, lo que significa que nos centraremos en cómo procesas la información y cómo esa comprensión se traduce en acciones concretas y efectivas. A través de la lectura de este material y de las actividades propuestas, desarrollarás la capacidad de analizar el contexto, identificar la función de la lengua que predomina en cada situación y, finalmente, producir textos que cumplan con los estándares de corrección, adecuación y coherencia.</p>
+            <p>A lo largo de este curso, nos adentraremos en cinco grandes bloques temáticos, comenzando con los textos funcionales. Analizaremos sus funciones y características, los clasificaremos en escolares, personales, laborales y sociales, y practicaremos su redacción. Posteriormente, abordaremos los textos persuasivos, el ensayo y los textos recreativos, para culminar con un repaso por las herramientas del léxico y la semántica, que son la base de cualquier buena escritura.</p>
+            <p>Te invitamos a comenzar este viaje con curiosidad y disposición. Recuerda que la palabra es tu herramienta más poderosa; aprender a usarla con precisión es el primer paso para convertirte en un lector experto y un escritor autónomo, capaz de participar de manera crítica y propositiva en tu entorno.</p>
+        </section>
+
+        <!-- ===== TEMA 1 ===== -->
+        <section id="tema1">
+            <h2>Tema 1. Textos Funcionales: La Herramienta Práctica de la Comunicación</h2>
+            <p>En nuestra vida diaria, nos encontramos rodeados de escritos que no buscan divertirnos ni conmovernos, sino simplemente cumplir una función práctica: ayudarnos a organizar una tarea, a solicitar algo o a comunicar un mensaje de manera eficiente. Estos son los textos funcionales, también conocidos en algunos contextos como textos instrumentales. Su estudio es fundamental porque constituyen la columna vertebral de la comunicación en los ámbitos escolar, laboral y social.</p>
+
+            <!-- Subtema 1.1 -->
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>1.1. ¿Qué es un texto funcional? Definición y Contexto</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p><strong>Llamamos textos funcionales a aquellos que tienen un carácter eminentemente práctico, es decir, cuya producción está orientada a un fin útil e inmediato.</strong></p>
+                    <p>A diferencia de otros tipos de textos, como los literarios o los periodísticos de opinión, un texto funcional no busca principalmente la belleza estética, la expresión de sentimientos o la creación de un mundo ficticio. Su valor reside en su utilidad. Es un medio para un fin, un vehículo que facilita la gestión de una actividad, la resolución de un problema o la solicitud de una acción.</p>
+                    <p>Este carácter práctico se manifiesta en su estructura, que suele ser clara, directa y, a menudo, estandarizada. Piensa en una receta de cocina: no está escrita con metáforas complejas, sino con instrucciones precisas y secuenciales para que el resultado sea un platillo exitoso. Lo mismo sucede con un manual de instrucciones, un formulario o una carta de solicitud.</p>
+                    <h4>Función Referencial y Apelativa</h4>
+                    <p>El análisis de los textos funcionales nos revela que su existencia y su forma están determinadas por la <strong>situación comunicativa</strong> en la que se producen. Esta situación define una <strong>intención comunicativa</strong> clara, que a su vez se traduce en una <strong>función del lenguaje</strong> específica.</p>
+                    <p>De las funciones básicas del lenguaje (referencial, emotiva, apelativa, poética, fática y metalingüística), los textos funcionales cumplen, por lo general, dos de manera predominante:</p>
+                    <ul>
+                        <li><strong>Función Referencial o Informativa:</strong> Esta función se centra en el contenido del mensaje, es decir, en la información que se transmite sobre la realidad. El emisor busca informar sobre un hecho, un objeto o una situación de manera objetiva. En un texto funcional, esta función se manifiesta cuando se presentan datos, se describen características o se enuncian hechos. Por ejemplo, un curriculum vitae describe la formación académica y la experiencia laboral de una persona; un cuadro sinóptico presenta de manera gráfica los conceptos principales de un texto.</li>
+                        <li><strong>Función Apelativa o Directiva:</strong> Esta función se centra en el receptor del mensaje, buscando influir en su comportamiento, ya sea para que realice una acción o para que modifique una idea. El emisor emite una orden, una petición o una instrucción. En los textos funcionales, esta función es igualmente crucial. Un memorando ordena una acción a un departamento; una solicitud de empleo pide ser considerado para un puesto; un oficio solicita a una autoridad la resolución de un trámite.</li>
+                    </ul>
+                    <h4>El texto funcional en acción: Ejemplos</h4>
+                    <ul>
+                        <li><strong>El Currículum Vitae (CV):</strong> Es un texto funcional que cumple una doble función. Por un lado, es referencial porque presenta una descripción objetiva de los datos personales, la formación académica y la experiencia laboral de una persona. Por otro lado, es apelativo porque su objetivo es persuadir a un reclutador para que lo invite a una entrevista.</li>
+                        <li><strong>El Memorando:</strong> Es un documento de comunicación interna en una empresa. Su función es principalmente apelativa, ya que transmite una orden, una instrucción o una comunicación oficial de un jefe a sus subordinados.</li>
+                        <li><strong>El Cuadro Sinóptico:</strong> Es un texto funcional de carácter escolar. Su función es referencial, ya que presenta de manera visual y resumida la información de un texto o una clase.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Subtema 1.2 -->
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>1.2. Funciones y Características de los Textos Funcionales</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>1.2.1. Las Funciones Comunicativas y su Situación de Uso</h4>
+                    <p>La <strong>situación comunicativa</strong> es el elemento que determina la forma y el propósito de un texto. En el caso de los textos funcionales, la situación suele ser una necesidad práctica: solicitar un trabajo, organizar una tarea, comunicar una orden o presentar una información de manera resumida.</p>
+                    <p>Esta situación determina una <strong>intención comunicativa</strong> que, en el caso de los textos funcionales, se orienta a la acción o a la transmisión objetiva de datos. A su vez, esta intención define la <strong>función del lenguaje</strong> que predomina: la <strong>referencial</strong> y la <strong>apelativa</strong>.</p>
+                    <ul>
+                        <li><strong>La Función Referencial:</strong> Se manifiesta cuando el texto se centra en el contenido, en la descripción de la realidad. Un ejemplo claro es un <strong>resumen</strong>. Cuando resumimos un libro, nuestra intención es captar y transmitir las ideas principales del autor, sin añadir nuestras opiniones.</li>
+                        <li><strong>La Función Apelativa:</strong> Se manifiesta cuando el texto se centra en el receptor, buscando influir en su conducta. Un ejemplo evidente es el <strong>memorando</strong>. El jefe que lo escribe no está describiendo una situación por el mero placer de hacerlo, sino que busca que sus subordinados ejecuten una acción específica.</li>
+                    </ul>
+
+                    <h4>1.2.2. Características Externas de los Textos Funcionales</h4>
+                    <ul>
+                        <li><strong>La Extensión:</strong> No hay una regla fija, pero la extensión de un texto funcional suele ser <strong>breve y concisa</strong>. Su objetivo es ser práctico, por lo que la información debe ser presentada de manera directa, sin rodeos.</li>
+                        <li><strong>El Medio:</strong> El medio de transmisión es variado y depende del contexto. Puede ser un documento <strong>impreso</strong> en papel, un documento <strong>digital</strong> o incluso un texto <strong>manuscrito</strong>.</li>
+                        <li><strong>La Estructura Externa:</strong> Se refiere a la disposición visual del texto. Esta estructura suele ser <strong>estandarizada</strong>, es decir, sigue un formato preestablecido para facilitar su lectura y comprensión.</li>
+                    </ul>
+
+                    <h4>1.2.3. Características Internas de los Textos Funcionales</h4>
+                    <ul>
+                        <li><strong>El Contenido:</strong> El contenido de un texto funcional debe ser <strong>preciso, claro y relevante</strong>. No se permite la ambigüedad ni la inclusión de información innecesaria.</li>
+                        <li><strong>El Tipo de Lenguaje:</strong> El lenguaje utilizado en los textos funcionales es, por lo general, <strong>formal, objetivo y directo</strong>. Se evita el lenguaje figurado, las metáforas y las expresiones coloquiales.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Subtema 1.3 -->
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>1.3. Clasificación de los Textos Funcionales</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>1.3.1. Textos Funcionales Escolares</h4>
+                    <p>Son aquellos que se utilizan en el ámbito académico para facilitar el aprendizaje, organizar la información y demostrar la comprensión de un tema.</p>
+                    <ul>
+                        <li><strong>El Cuadro Sinóptico:</strong> Representación gráfica de la información que permite visualizar la estructura y organización de un texto.</li>
+                        <li><strong>El Mapa Conceptual:</strong> Diagrama que muestra las relaciones significativas entre conceptos.</li>
+                        <li><strong>El Resumen:</strong> Texto escrito en prosa que presenta de manera breve y concisa las ideas principales de un texto más extenso.</li>
+                    </ul>
+
+                    <h4>1.3.2. Textos Funcionales Personales</h4>
+                    <p>Son aquellos que utiliza una persona en su vida privada para gestionar sus asuntos, comunicarse con instituciones o presentarse a sí misma.</p>
+                    <ul>
+                        <li><strong>El Currículum Vitae (CV):</strong> Es el texto funcional personal por excelencia. Es la relación de los títulos, honores, cargos, trabajos realizados y datos biográficos que califican a una persona.</li>
+                        <li><strong>La Carta de Presentación:</strong> Texto que acompaña al currículum vitae y en el que el aspirante explica las razones por las que se considera el candidato ideal.</li>
+                    </ul>
+
+                    <h4>1.3.3. Textos Funcionales Laborales y Sociales</h4>
+                    <p>Son aquellos que se utilizan en el ámbito profesional, empresarial o en la interacción con instituciones públicas y privadas.</p>
+                    <ul>
+                        <li><strong>El Memorando:</strong> Documento de comunicación interna en una empresa u organización.</li>
+                        <li><strong>El Oficio:</strong> Comunicación escrita que se refiere a asuntos de las administraciones públicas.</li>
+                        <li><strong>La Carta Petición:</strong> Documento formal en el que se solicita a una autoridad la resolución de un problema.</li>
+                        <li><strong>La Carta Poder:</strong> Documento mediante el cual una persona faculta a otra para que realice en su nombre determinados actos.</li>
+                        <li><strong>El Blog:</strong> Sitio web que incluye contenidos de interés, actualizados con frecuencia.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Subtema 1.4 -->
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>1.4. Práctica de la Redacción de Textos Funcionales</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>1.4.1. La Redacción de un Cuadro Sinóptico</h4>
+                    <ol>
+                        <li><strong>Lectura Comprensiva:</strong> Leer el texto que se va a resumir.</li>
+                        <li><strong>Análisis y Jerarquización:</strong> Identificar los conceptos clave y establecer una jerarquía.</li>
+                        <li><strong>Elección del Formato:</strong> Decidir la forma del cuadro sinóptico (cuadro comparativo, diagrama, esquema de llaves).</li>
+                        <li><strong>Redacción y Representación Gráfica:</strong> Redactar el contenido de manera concisa y organizar la información visualmente.</li>
+                    </ol>
+                    <h4>1.4.2. La Redacción de un Currículum Vitae</h4>
+                    <ol>
+                        <li><strong>Recopilación de Datos:</strong> Reunir toda la información necesaria.</li>
+                        <li><strong>Elección del Formato:</strong> Elegir entre cronológico, funcional o combinado.</li>
+                        <li><strong>Redacción Concisa y Precisa:</strong> Utilizar un lenguaje escueto y casi telegráfico.</li>
+                        <li><strong>Revisión y Presentación:</strong> Revisar la ortografía y la gramática. El CV debe estar impreso en computadora, con un diseño limpio.</li>
+                    </ol>
+                    <h4>1.4.3. La Redacción de un Oficio o Carta Petición</h4>
+                    <ol>
+                        <li><strong>Encabezado:</strong> Lugar y fecha, nombre y cargo del destinatario, nombre de la institución.</li>
+                        <li><strong>Saludo:</strong> Formal y respetuoso.</li>
+                        <li><strong>Cuerpo:</strong> Exponer el asunto de manera clara y concisa.</li>
+                        <li><strong>Despedida:</strong> Formal.</li>
+                        <li><strong>Firma:</strong> Nombre completo y cargo.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Preguntas de Reflexión Tema 1 -->
+            <div class="box-reflection">
+                <h4>💭 Preguntas de Reflexión (Tema 1)</h4>
+                <ol>
+                    <li>¿Cómo crees que el dominio de la redacción de textos funcionales puede impactar en tu futuro académico y profesional?</li>
+                    <li>¿Qué diferencias encuentras entre la función referencial y la función apelativa en un texto funcional? Proporciona un ejemplo de cada una.</li>
+                    <li>¿Por qué crees que la claridad y la precisión son características tan importantes en los textos funcionales?</li>
+                    <li>¿En qué situaciones de tu vida diaria has tenido que utilizar un texto funcional? ¿Cuál fue el resultado?</li>
+                    <li>Si tuvieras que explicar a un compañero qué es un texto funcional, ¿cómo lo harías de manera sencilla?</li>
+                </ol>
+            </div>
+
+            <!-- Actividad Tema 1 -->
+            <div class="box-activity">
+                <h4>📝 Actividad (Tema 1)</h4>
+                <p><strong>Instrucciones:</strong> Elabora un <strong>mapa conceptual</strong> que sintetice la información del Tema 1: "Textos Funcionales". Tu mapa debe incluir los siguientes conceptos: "Definición", "Funciones", "Características Externas", "Características Internas", "Clasificación" y los tres tipos de textos funcionales (Escolares, Personales, Laborales y Sociales). Utiliza palabras de enlace para conectar los conceptos y organiza la información de manera jerárquica.</p>
+            </div>
+        </section>
+
+        <!-- ===== TEMA 2 ===== -->
+        <section id="tema2">
+            <h2>Tema 2. Textos Persuasivos: El Arte de Convencer</h2>
+            <p>Vivimos en un mundo de mensajes que compiten por nuestra atención. Desde los anuncios publicitarios que nos invitan a comprar un producto, hasta los discursos políticos que buscan nuestro voto, pasando por los artículos de opinión que intentan moldear nuestra forma de pensar. Todos estos son textos persuasivos, y su objetivo es uno: convencernos. A diferencia de los textos funcionales, que buscan informar o dirigir una acción de manera directa, los textos persuasivos buscan influir en nuestras creencias, actitudes y comportamientos a través de la argumentación y la retórica.</p>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>2.1. ¿Qué es un Texto Persuasivo? Definición y Funciones</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p><strong>Son aquellos textos que están orientados a inducir, mover u obligar a otras personas con razones a creer o hacer algo, y que tienen la fuerza suficiente para lograrlo.</strong></p>
+                    <p>El texto persuasivo no se contenta con informar; su propósito es <strong>cambiar la opinión o la conducta del receptor</strong>. Para lograrlo, utiliza una combinación de argumentos lógicos, apelaciones a las emociones y recursos retóricos que hacen el mensaje más atractivo y convincente.</p>
+                    <p>La intención comunicativa de un texto persuasivo es, por lo tanto, <strong>influir en el receptor</strong>. Esta intención se traduce en una función del lenguaje predominante: la <strong>función apelativa o conativa</strong>. Esta función se centra en el receptor, buscando llamar su atención y provocar una reacción.</p>
+                    <p>Además de la función apelativa, los textos persuasivos también pueden hacer uso de la <strong>función poética o retórica</strong>. Esta función se centra en la forma del mensaje, buscando embellecerlo para que sea más memorable y eficaz.</p>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>2.2. Características de los Textos Persuasivos</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>Características Externas:</h4>
+                    <ul>
+                        <li><strong>La Extensión:</strong> Varía considerablemente según el tipo de texto.</li>
+                        <li><strong>El Medio:</strong> Pueden transmitirse a través de medios muy diversos.</li>
+                        <li><strong>La Estructura Externa:</strong> Es muy variada.</li>
+                    </ul>
+                    <h4>Características Internas:</h4>
+                    <ul>
+                        <li><strong>El Contenido:</strong> Se centra en presentar una <strong>opinión</strong>, una <strong>idea</strong> o una <strong>propuesta</strong> sobre un tema polémico o de interés público.</li>
+                        <li><strong>El Lenguaje:</strong> Es <strong>subjetivo</strong> y <strong>connotativo</strong>. Se utilizan palabras con una fuerte carga emocional para apelar a los sentimientos del receptor.</li>
+                        <li><strong>El Prototipo Textual:</strong> Los textos persuasivos pertenecen principalmente al <strong>prototipo argumentativo</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>2.3. Clasificación de los Textos Persuasivos</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>2.3.1. El Anuncio Publicitario</h4>
+                    <p>Es un mensaje que busca difundir una cierta información con el objetivo de captar la atención de potenciales clientes. Su finalidad es <strong>comercial</strong>.</p>
+                    <h4>2.3.2. El Artículo de Opinión</h4>
+                    <p>Es un texto periodístico en el que el autor expresa su opinión personal sobre un tema de actualidad y relevancia. Su objetivo es <strong>influir en la opinión pública</strong>.</p>
+                    <h4>2.3.3. La Caricatura Política</h4>
+                    <p>Es un dibujo satírico que ridiculiza o toma en broma a un personaje o acontecimiento de la realidad política. Su objetivo es <strong>expresar una opinión crítica</strong> de manera cómica.</p>
+                </div>
+            </div>
+
+            <div class="box-reflection">
+                <h4>💭 Preguntas de Reflexión (Tema 2)</h4>
+                <ol>
+                    <li>¿Qué diferencia fundamental existe entre un texto funcional y un texto persuasivo?</li>
+                    <li>¿Cómo influye la función apelativa en la redacción de un anuncio publicitario?</li>
+                    <li>¿Por qué crees que la subjetividad es una característica clave en el artículo de opinión?</li>
+                    <li>¿Qué papel juega el humor en la caricatura política como herramienta de persuasión?</li>
+                    <li>¿Crees que es posible ser un lector crítico de los textos persuasivos? ¿Cómo se logra?</li>
+                </ol>
+            </div>
+
+            <div class="box-activity">
+                <h4>📝 Actividad (Tema 2)</h4>
+                <p><strong>Instrucciones:</strong> Elabora una <strong>tabla comparativa</strong> en la que analices los tres tipos de textos persuasivos vistos en clase (Anuncio Publicitario, Artículo de Opinión y Caricatura Política). La tabla debe tener las siguientes columnas: "Tipo de Texto", "Función del Lenguaje Predominante", "Intención Comunicativa", "Características Principales" y "Ejemplo".</p>
+            </div>
+        </section>
+
+        <!-- ===== TEMA 3 ===== -->
+        <section id="tema3">
+            <h2>Tema 3. El Ensayo: La Expresión del Pensamiento Crítico</h2>
+            <p>El ensayo es uno de los géneros más versátiles y ricos de la literatura y del pensamiento. No se limita a informar ni a persuadir de manera directa; su esencia es la <strong>reflexión personal</strong> sobre un tema, presentada de manera libre y creativa. Es el espacio donde el autor explora sus ideas, las confronta con las de otros y las comparte con el lector, invitándolo a reflexionar también.</p>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>3.1. ¿Qué es un Ensayo? Definición y Características</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p>De acuerdo con la Real Academia Española, un ensayo es un <strong>escrito en el cual un autor desarrolla sus ideas sin necesidad de mostrar el aparato erudito</strong>.</p>
+                    <p>El ensayo se define, ante todo, por la <strong>libertad</strong>. Libertad temática, libertad formal y libertad de estilo. Sin embargo, esta libertad no implica desorden. El ensayo es una <strong>interpretación personal</strong> de un tema, una "hipótesis" que se "ensaya".</p>
+                    <h4>Características Fundamentales:</h4>
+                    <ul>
+                        <li><strong>Subjetividad:</strong> El ensayo es eminentemente subjetivo. Presenta el punto de vista del autor.</li>
+                        <li><strong>Libertad Temática:</strong> Se puede escribir un ensayo sobre casi cualquier tema.</li>
+                        <li><strong>Carácter Polémico:</strong> El ensayo suele presentar una tesis o una idea que puede ser debatida.</li>
+                        <li><strong>Extensión Variable:</strong> Puede ser desde una o dos cuartillas hasta un libro completo.</li>
+                        <li><strong>Estilo Libre:</strong> El autor puede adoptar el estilo que prefiera.</li>
+                        <li><strong>Carácter Incompleto:</strong> El ensayo no pretende agotar un tema. Es un esbozo, una aproximación.</li>
+                    </ul>
+                    <h4>Tipos de Ensayo:</h4>
+                    <ul>
+                        <li><strong>Ensayo Filosófico o Argumentativo:</strong> Su objetivo es defender una tesis o una idea sobre un tema de la vida y del desarrollo humano.</li>
+                        <li><strong>Ensayo Literario:</strong> El autor presenta sus reflexiones personales y comentarios que le surgen a partir de una obra literaria.</li>
+                        <li><strong>Ensayo Científico:</strong> El autor presenta sus reflexiones sobre un aspecto de la ciencia que aún no ha sido comprobado de manera científica.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>3.2. Estructura y Metodología del Ensayo</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>Estructura Básica:</h4>
+                    <ol>
+                        <li><strong>Introducción:</strong> Captar la atención del lector y presentar el tema.</li>
+                        <li><strong>Desarrollo:</strong> Exponer y desarrollar las ideas principales, los argumentos y los ejemplos que sustentan la tesis.</li>
+                        <li><strong>Conclusión:</strong> Recapitular las ideas principales y presentar una síntesis del pensamiento del autor.</li>
+                    </ol>
+                    <h4>Metodología para la Redacción:</h4>
+                    <ol>
+                        <li><strong>Selección del Tema:</strong> Elige un tema que te interese y te apasione.</li>
+                        <li><strong>Investigación y Documentación:</strong> Lee sobre el tema para conocer las diferentes perspectivas.</li>
+                        <li><strong>Elaboración de un Esquema:</strong> Organiza tus ideas en un esquema.</li>
+                        <li><strong>Redacción del Primer Borrador:</strong> Escribe tu ensayo sin preocuparte demasiado por la perfección.</li>
+                        <li><strong>Revisión y Corrección:</strong> Revisa el fondo y la forma.</li>
+                        <li><strong>Elección del Título:</strong> El título debe ser atractivo y sugerente.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="box-reflection">
+                <h4>💭 Preguntas de Reflexión (Tema 3)</h4>
+                <ol>
+                    <li>¿Por qué crees que la subjetividad es una característica fundamental del ensayo?</li>
+                    <li>¿Qué diferencia a un ensayo de un artículo de opinión? ¿Qué tienen en común?</li>
+                    <li>¿Cómo crees que la metodología propuesta para redactar un ensayo puede ayudarte a escribir uno?</li>
+                    <li>¿Cuál de los tres tipos de ensayo (filosófico, literario, científico) te parece más interesante y por qué?</li>
+                    <li>¿Crees que el ensayo puede ser una herramienta para el cambio social? ¿Cómo?</li>
+                </ol>
+            </div>
+
+            <div class="box-activity">
+                <h4>📝 Actividad (Tema 3)</h4>
+                <p><strong>Instrucciones:</strong> Elabora un <strong>diagrama de flujo</strong> que represente la metodología para la redacción de un ensayo, desde la selección del tema hasta la presentación final. Para cada paso del proceso, incluye una breve explicación y una imagen o icono representativo.</p>
+            </div>
+        </section>
+
+        <!-- ===== TEMA 4 ===== -->
+        <section id="tema4">
+            <h2>Tema 4. Textos Recreativos: El Placer de la Palabra</h2>
+            <p>Hasta ahora, hemos explorado textos que buscan ser útiles, persuasivos o reflexivos. Sin embargo, también existen textos cuyo único fin es <strong>divertir, alegrar o deleitar</strong>. Son los textos recreativos, una manifestación del juego, la imaginación y la creatividad humana.</p>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>4.1. ¿Qué es un Texto Recreativo? Funciones y Características</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <p><strong>Se le denomina texto recreativo a aquél que está orientado a divertir, alegrar o deleitar a las personas.</strong></p>
+                    <p>La intención comunicativa de estos textos es <strong>estética y lúdica</strong>. Buscan producir placer en el receptor a través del uso artístico del lenguaje. Las funciones del lenguaje que predominan son:</p>
+                    <ul>
+                        <li><strong>Función Emotiva o Expresiva:</strong> Se centra en el emisor, quien expresa sus sentimientos, emociones y pensamientos.</li>
+                        <li><strong>Función Poética o Estética:</strong> Se centra en la forma del mensaje, en la belleza y originalidad con que se utilizan las palabras.</li>
+                        <li><strong>Función Fática o Relacional:</strong> Se centra en el canal, buscando establecer o mantener la comunicación.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>4.2. Clasificación de los Textos Recreativos</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <h4>Textos Recreativos Populares:</h4>
+                    <ul>
+                        <li><strong>El Chiste:</strong> Relato breve cuyo propósito es hacer reír.</li>
+                        <li><strong>La Anécdota:</strong> Relación breve de un suceso curioso o interesante.</li>
+                        <li><strong>La Adivinanza:</strong> Enigma que se plantea a otra persona para que lo resuelva.</li>
+                        <li><strong>La Historieta:</strong> Serie de dibujos que constituyen un relato.</li>
+                        <li><strong>El Refrán:</strong> Dicho popular que enseña o aconseja algo.</li>
+                    </ul>
+                    <h4>Textos Recreativos Literarios:</h4>
+                    <ul>
+                        <li><strong>Género Narrativo:</strong> Cuento, Novela, Leyenda, Mito.</li>
+                        <li><strong>Género Lírico:</strong> Poema, Canción.</li>
+                        <li><strong>Género Dramático:</strong> Entremés, Sainete, Parodia.</li>
+                        <li><strong>Género Didáctico:</strong> Fábula, Refrán.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="box-reflection">
+                <h4>💭 Preguntas de Reflexión (Tema 4)</h4>
+                <ol>
+                    <li>¿Qué diferencia a un texto recreativo de un texto funcional o persuasivo?</li>
+                    <li>¿Por qué crees que la función poética es tan importante en los textos recreativos?</li>
+                    <li>¿Qué papel juegan los textos populares en la cultura de un pueblo?</li>
+                    <li>¿Cuál es la diferencia entre un cuento y una novela?</li>
+                    <li>¿Por qué la fábula se considera un texto recreativo y didáctico a la vez?</li>
+                </ol>
+            </div>
+
+            <div class="box-activity">
+                <h4>📝 Actividad (Tema 4)</h4>
+                <p><strong>Instrucciones:</strong> Elabora un <strong>esquema de llaves</strong> que clasifique los textos recreativos en populares y literarios. Dentro de cada categoría, incluye los subtipos correspondientes (chiste, anécdota, cuento, novela, etc.) y una breve descripción de cada uno.</p>
+            </div>
+        </section>
+
+        <!-- ===== TEMA 5 ===== -->
+        <section id="tema5">
+            <h2>Tema 5. Prácticas del Uso del Léxico y la Semántica</h2>
+            <p>El dominio de una lengua no solo implica conocer sus reglas gramaticales, sino también comprender el significado de las palabras (semántica) y saber utilizarlas en el contexto adecuado (léxico). Este tema se centra en el estudio de las palabras: su origen, su formación y los significados que pueden adquirir.</p>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>5.1. Lenguaje Denotativo y Connotativo</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <ul>
+                        <li><strong>Lenguaje Denotativo:</strong> Es el significado <strong>objetivo</strong>, literal y común de una palabra. Es el que encontramos en el diccionario.</li>
+                        <li><strong>Lenguaje Connotativo:</strong> Es el significado <strong>subjetivo</strong>, figurado o simbólico que una palabra adquiere en un contexto determinado.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>5.2. Palabras Primitivas, Derivadas y Compuestas</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <ul>
+                        <li><strong>Palabras Primitivas:</strong> Son aquellas que ni proceden ni se forman de otras de nuestra lengua. Ejemplos: árbol, canto, ropa.</li>
+                        <li><strong>Palabras Derivadas:</strong> Son aquellas que proceden o se forman de una palabra primitiva mediante la adición de un <strong>prefijo</strong> o un <strong>sufijo</strong>. Ejemplos: arboleda, cantante, arropar.</li>
+                        <li><strong>Palabras Compuestas:</strong> Son aquellas que están formadas por dos o más palabras simples que, al juntarse, forman una nueva palabra con un nuevo significado. Ejemplos: sacapuntas, camposanto.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>5.3. Prefijos y Sufijos Griegos y Latinos</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <ul>
+                        <li><strong>Prefijos:</strong> Se colocan al principio de la palabra.
+                            <ul>
+                                <li><strong>Griegos:</strong> a- (privado de), anti- (contra), auto- (uno mismo), hiper- (exceso).</li>
+                                <li><strong>Latinos:</strong> a-, ad- (proximidad), bi-, bis- (dos), ex- (fuera), multi- (muchos), pre- (antes).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Sufijos:</strong> Se colocan al final de la palabra.
+                            <ul>
+                                <li><strong>Griegos:</strong> -algia (dolor), -grafía (escribir), -itis (inflamación), -teca (caja o archivo).</li>
+                                <li><strong>Latinos:</strong> -cida (que mata), -cultura (arte de cultivar), -forme (con forma de), -voro (comer).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-collapsible">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span>5.4. Vicios de Dicción</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="section-body">
+                    <ul>
+                        <li><strong>Barbarismo:</strong> Pronunciar o escribir mal las palabras, o emplear vocablos impropios.</li>
+                        <li><strong>Solecismo:</strong> Error en la sintaxis, en la construcción de las oraciones.</li>
+                        <li><strong>Anfibología:</strong> Uso de frases o palabras que tienen más de una interpretación.</li>
+                        <li><strong>Redundancia:</strong> Uso de palabras innecesarias para el sentido de la idea.</li>
+                        <li><strong>Queísmo y Dequeísmo:</strong> Uso inadecuado de las preposiciones "de" y la conjunción "que".</li>
+                        <li><strong>Cosismo:</strong> Abuso de la palabra "cosa" para designar todo.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="box-reflection">
+                <h4>💭 Preguntas de Reflexión (Tema 5)</h4>
+                <ol>
+                    <li>¿Por qué es importante distinguir entre el lenguaje denotativo y el connotativo?</li>
+                    <li>¿Cómo puede el conocimiento de los prefijos y sufijos ayudarte a comprender palabras nuevas?</li>
+                    <li>¿Qué diferencia hay entre una palabra derivada y una compuesta?</li>
+                    <li>¿Cuáles son los vicios de dicción más comunes en tu entorno? ¿Cómo podrías evitarlos?</li>
+                    <li>¿Crees que el uso correcto del léxico es importante en todas las áreas de la vida? ¿Por qué?</li>
+                </ol>
+            </div>
+
+            <div class="box-activity">
+                <h4>📝 Actividad (Tema 5)</h4>
+                <p><strong>Instrucciones:</strong> Elabora un <strong>cuadro sinóptico</strong> que organice la información sobre los vicios de dicción. El cuadro debe incluir el nombre del vicio, una definición breve y un ejemplo de cada uno.</p>
+            </div>
+        </section>
+
+        <!-- ===== CIERRE ===== -->
+        <section id="cierre">
+            <h2>Cierre</h2>
+            <h3>Conclusión</h3>
+            <p>A lo largo de este viaje por el mundo de la Lectura y la Redacción 2, hemos explorado los distintos tipos de textos que conforman nuestra realidad comunicativa. Hemos aprendido que cada texto tiene una intención, una estructura y un lenguaje específicos, y que su dominio es fundamental para desenvolvernos con éxito en los ámbitos escolar, personal, laboral y social.</p>
+            <p>Comenzamos analizando los <strong>textos funcionales</strong>, esas herramientas prácticas que nos permiten organizar, solicitar y comunicar de manera eficiente. Vimos que su claridad y precisión son sus principales virtudes.</p>
+            <p>Luego, nos adentramos en el apasionante mundo de la <strong>persuasión</strong>, explorando los <strong>textos persuasivos</strong> que buscan influir en nuestras ideas y conductas. Aprendimos a identificar sus funciones, sus características y sus principales manifestaciones, como el anuncio publicitario, el artículo de opinión y la caricatura política. Desarrollamos una mirada crítica para no ser víctimas de la manipulación.</p>
+            <p>Después, nos enfrentamos al desafío del <strong>ensayo</strong>, un género que nos invita a la reflexión personal y al pensamiento crítico. Descubrimos que la libertad y la subjetividad son sus señas de identidad, y que su redacción requiere un proceso metodológico que nos ayuda a ordenar nuestras ideas.</p>
+            <p>Finalmente, nos sumergimos en el placer de la palabra a través de los <strong>textos recreativos</strong>, que nos divierten, nos conmueven y nos permiten soñar. Exploramos su clasificación en populares y literarios, y conocimos sus múltiples formas y géneros.</p>
+            <p>Para completar este panorama, estudiamos las <strong>herramientas del léxico y la semántica</strong>, que son la base de cualquier buena escritura. Aprendimos sobre el poder de las palabras, su formación y los errores que podemos cometer al usarlas.</p>
+            <p>El recorrido por esta asignatura no solo te ha proporcionado conocimientos teóricos, sino también habilidades prácticas. Has aprendido a leer con mayor profundidad, a analizar los textos de manera crítica y a escribir con mayor claridad y precisión. Estas competencias son invaluables y te acompañarán a lo largo de tu vida académica, profesional y personal. Recuerda que la palabra es tu herramienta más poderosa; úsala con sabiduría, responsabilidad y creatividad.</p>
+
+            <div class="box-project">
+                <h3>🎯 Proyecto Final por Equipos: "Voces de Mi Comunidad"</h3>
+                <p><strong>Problema Vivencial a Intervenir:</strong> En tu comunidad, escuela o colonia, se observa un problema común y sencillo: la falta de conciencia sobre el manejo de la basura y el cuidado del entorno. La gente tira basura en las calles, no separa los desechos y el espacio público se ve descuidado. Este es un problema que afecta a todos y que podemos empezar a cambiar con un poco de información y voluntad.</p>
+                <p><strong>¿Qué van a diseñar y cómo lo van a desarrollar?</strong></p>
+                <p>Los equipos de trabajo (de 3 a 5 integrantes) diseñarán y llevarán a cabo una <strong>campaña de concientización</strong> dirigida a la comunidad escolar o vecinal, utilizando los diferentes tipos de textos que hemos aprendido en el curso.</p>
+                <h4>Desarrollo del Proyecto:</h4>
+                <ol>
+                    <li><strong>Investigación y Análisis (Semana 1):</strong> En equipo, observen y describan el problema de la basura en su entorno. Definan su público objetivo.</li>
+                    <li><strong>Diseño de los Textos (Semanas 2 y 3):</strong>
+                        <ul>
+                            <li><strong>Textos Persuasivos:</strong> Diseñarán <strong>carteles</strong> (anuncios publicitarios) con eslóganes llamativos. También pueden crear una <strong>caricatura política</strong> que critique el problema de la contaminación.</li>
+                            <li><strong>Textos Funcionales:</strong> Elaborarán un <strong>tríptico</strong> informativo con <strong>instrucciones</strong> claras y sencillas sobre cómo separar la basura. Pueden crear un <strong>cuadro sinóptico</strong> que resuma los beneficios de reciclar.</li>
+                            <li><strong>Textos Recreativos:</strong> Crearán un <strong>cuento corto</strong> o una <strong>fábula</strong> con una moraleja sobre el cuidado del medio ambiente. Incluso pueden inventar un <strong>chiste</strong> o una <strong>adivinanza</strong> ecológica.</li>
+                            <li><strong>Ensayo (Opcional):</strong> Como equipo, redactarán un <strong>ensayo breve</strong> donde reflexionen sobre la importancia del cuidado del medio ambiente.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Presentación y Difusión (Semana 4):</strong> El equipo presentará su campaña ante el grupo o la comunidad escolar. Explicarán el problema que abordaron, los textos que diseñaron y cómo pretenden que su campaña genere un cambio positivo.</li>
+                </ol>
+                <p><strong>Producto a Evaluar:</strong> La campaña completa, que incluye la presentación del problema, el diseño de los textos persuasivos, funcionales y recreativos, y la exposición oral del proyecto. Se evaluará la creatividad, la claridad de los mensajes, el uso correcto de los tipos de texto y la coherencia del proyecto en su conjunto.</p>
+            </div>
+        </section>
+
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir Lección</button>
+
+    </main>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // Función para colapsar/expandir secciones
+        function toggleSection(header) {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('.icon');
+            
+            // Alternar la clase 'open' en el cuerpo
+            body.classList.toggle('open');
+            
+            // Alternar la clase 'active' en el encabezado para rotar el icono
+            header.classList.toggle('active');
+            
+            // Ajustar la altura máxima para la transición
+            if (body.classList.contains('open')) {
+                body.style.maxHeight = body.scrollHeight + "px";
+            } else {
+                body.style.maxHeight = "0";
+            }
+        }
+
+        // Abrir la primera sección de cada tema al cargar la página (opcional)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Abrir todas las secciones del primer tema por defecto
+            const firstTopicSections = document.querySelectorAll('#tema1 .section-body');
+            firstTopicSections.forEach(body => {
+                body.classList.add('open');
+                body.style.maxHeight = body.scrollHeight + "px";
+                body.previousElementSibling.classList.add('active');
+            });
+
+            // Resaltar el enlace activo en la barra lateral al hacer scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.sidebar ul li a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 100)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
